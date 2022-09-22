@@ -67,6 +67,9 @@ def part_one():
 
 
 def blur(img, amount, std=None):
+    """
+    Applies a gaussian kernal to img with size amount and std.
+    """
     G = gkern(amount, std)
     if len(img.shape) == 2:
         return convolve2d(img, G, mode='same')
@@ -78,6 +81,11 @@ def blur(img, amount, std=None):
 
 
 def normalize(img, hard=False):
+    """
+    Normalizes an image to be witihin [0,1].
+    Hard mode normalizes the image to have range exactly [0,1].
+    Default assumes the image has range roughly [0,256] or [0,1].
+    """
     if hard:
         return (img - np.min(img)) / (np.max(img) - np.min(img))
     if np.mean(img) > 1:
@@ -87,6 +95,10 @@ def normalize(img, hard=False):
 
 
 def sharpen(img, amnt):
+    """
+    Returns the "sharpened" version of an image:
+    e.g. the image + its high frequencies.
+    """
     blurred_img = blur(img, amnt)
     hifi_img = normalize(img, hard=True) - blurred_img
     sharp = img + hifi_img
@@ -112,6 +124,11 @@ def part_two_one():
 
 
 def hybrid(img1, img2, sigma1, sigma2):
+    """
+    Returns the hybrid of img1 and img2, where the size of the gaussian kernal applied
+    to each image is given by sigma1 and sigma2, respectively.
+    """
+
     blurry_img1 = normalize(blur(img1, sigma1), hard=True)
     hifi_img2 = normalize(img2 - blur(img2, sigma2), hard=True)
     return normalize(blurry_img1 + hifi_img2, hard=True)
@@ -157,6 +174,11 @@ def part_two_two():
 
 
 def stacks(img, sigma, N):
+    """
+    Creates an N-layer Gaussian stack and returns it as well the corresponding Laplacian Stack.
+    The size of each gaussian is given by sigma.
+    """
+
     gaussian = []
     for i in range(N):
         gaussian.append(img)
@@ -169,6 +191,12 @@ def stacks(img, sigma, N):
 
 
 def blend(A, B, sigma, N, mask=None, s=False):
+    """
+    Returns the blend of grey images A and B.
+    Uses N-layer Laplacian stacks, each using a blur with a kernal size of sigma.
+
+    If no mask is provided, a vertical seam mask is generated, with an initial blur.
+    """
     if mask is None:
         # vertical spline
         mask = np.ones_like(A)
