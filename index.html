@@ -1,0 +1,685 @@
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>CS194-26 Project 2</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+
+				<!-- Part 1: Fun with Filters -->
+					<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+						<div class="content">
+							<h1>Part 1: Fun with Filters</h1>
+
+							<p class="major">2D Convolutions and Filtering.</p>
+						</div>
+						<div class="image">
+							<img src="out/pt1-2_binarized.jpeg" alt="" />
+						</div>
+					</section>
+
+				<!-- Part 1.1: Finite Difference Operators -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Part 1.1: Finite Difference Operators</h2>
+							<p>Using finite difference kernals Dx and Dy, we can achieve a gradient vector for the image.
+							The magnitude of the gradients, sqrt(Dx(img)^2 + Dy(img)^2), serves as a way to detect edges.
+							Binarizing the image takes the contrast to the limit. For this part, a good threshold for the
+							binarized image turned out to be 0.25. </p>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt1-1_dx.jpeg" class="image">
+										<img src="out/pt1-1_dx.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Image convolved under Dx kernal. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-1_dy.jpeg" class="image">
+										<img src="out/pt1-1_dy.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Image convolved under Dy kernal. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-1_grad.jpeg" class="image">
+										<img src="out/pt1-1_grad.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Gradient magnitude image. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-1_binarized.jpeg" class="image">
+										<img src="out/pt1-1_binarized.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Binarized gradient magnitude image (threshold=0.25). </h3>
+									</div>
+								</article>
+
+
+							</div>
+
+					</section>
+
+				<!-- Part 1.2: Derivative of Gaussian Filter -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Part 1.2: Derivative of Gaussian Filter</h2>
+							<p>Using the Gaussian kernal, we blur the image first and then repeat the process above to suppress
+							noise (high frequncies) to aid with edge detection. We remark that this technique successfully suppresses
+							high frequncies and aids in the edge detection process.<br><br> Additionally, we demonstrate that kernals are commutative operators by reversing the above process —
+							convolving the finite difference operators and then blurring the image. </p>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt1-2_dx.jpeg" class="image">
+										<img src="out/pt1-2_dx.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Blurred image convolved under Dx kernal. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-2_dy.jpeg" class="image">
+										<img src="out/pt1-2_dy.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Blurred image convolved under Dy kernal. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-1_grad.jpeg" class="image">
+										<img src="out/pt1-1_grad.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Gradient magnitude image from blurred image. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-2_binarized.jpeg" class="image">
+										<img src="out/pt1-2_binarized.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Binarized gradient magnitude image (threshold=0.09). </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt1-2_binarized_flipped.jpeg" class="image">
+										<img src="out/pt1-2_binarized_flipped.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Binarized gradient magnitude image from flipping the order of convolutions (identical). </h3>
+									</div>
+								</article>
+
+							</div>
+
+					</section>
+
+				<br><br>
+
+				<!-- Part 2: Fun with Frequencies-->
+					<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+						<div class="content">
+							<h1>Part 2: Fun with Frequencies</h1>
+							<p class="major">Image sharpening, hybrids, and blending.</p>
+						</div>
+						<div class="image">
+							<img src="out/pt2-3_collapsed.jpeg" alt="" />
+						</div>
+					</section>
+
+				<!-- Part 2.1: Image Sharpening -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Part 2.1: Image Sharpening</h2>
+							<p>Extracting the high frequencies of an image and re-adding it to the image creates a
+							"sharpening" effect. We demonstrate this process on three images: the Taj Mahal,
+							internet celebrity Zyzz, and my friend Sophia. For Sophia, we have a comparison of an
+							original hi-res image and a sharpened version of blurred version of the image.
+							<br><br> The differences are subtle but can be observed in high frequency regions of the images,
+							such as the top of the Taj Mahal or by the ski rack.</p>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="lib/taj.jpeg" class="image">
+										<img src="lib/taj.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Original image of the Taj Mahal. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt2-1_sharpened_taj.jpeg" class="image">
+										<img src="out/pt2-1_sharpened_taj.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Sharpened image of the Taj Mahal. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="lib/zyzz.jpeg" class="image">
+										<img src="lib/zyzz.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Original image of Zyzz. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt2-1_sharpened_zyzz.jpeg" class="image">
+										<img src="out/pt2-1_sharpened_zyzz.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Sharpened image of Zyzz. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="lib/sophia.jpeg" class="image">
+										<img src="lib/sophia.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Original hi-res image ofSophia. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt2-1_blurred_sophia.jpeg" class="image">
+										<img src="out/pt2-1_blurred_sophia.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Blurred image of Sophia. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt2-1_sharpened_blurred_sophia.jpeg" class="image">
+										<img src="out/pt2-1_sharpened_blurred_sophia.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Sharpened image of blurred image of Sophia. </h3>
+									</div>
+								</article>
+							</div>
+
+					</section>
+
+
+				<!-- Part 2.2: Hybrid images -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Part 2.2: Hybrid Images</h2>
+							<p>Adding the high frequencies of one image with the low frequencies of another creates a hybrid
+								image: particularly, the higher frequencies will be more visible at a closer distance,
+								and the low frequencies will be more visible from afar. The following gallery demonstrates
+								this effect on images of several pairs of images.
+								<br><br> For the final image (a combination of Mike Ehrmantraut from breaking bad, and a
+								finger), we illustrate the process through frequency analysis. </p>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="lib/nutmeg_aligned.jpeg" class="image">
+										<img src="lib/nutmeg_aligned.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Cropped image of the cat Nutmeg. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="lib/derek_aligned.jpeg" class="image">
+										<img src="lib/derek_aligned.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Cropped image of Derek, a human. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt2-2_catboy.jpeg" class="image">
+										<img src="out/pt2-2_catboy.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>A real-life catboy. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-2_anakinvader.jpeg" class="image">
+										<img src="out/pt2-2_anakinvader.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Hybrid image of Anakin and Vader. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-2_lightpencil.jpeg" class="image">
+										<img src="out/pt2-2_lightpencil.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Failed hybrid image of a lighthouse and a pencil. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-2_.jpeg" class="image">
+										<img src="out/pt2-2_kidnamedfinger.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>KID NAMED FINGER </h3>
+									</div>
+								</article>
+
+							</div>
+
+						<br>
+
+						<!-- Kid Named Finger Process -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="lib/mike.jpeg" class="image">
+										<img src="lib/mike.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Original image of Mike from Breaking Bad. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-2_mikefft.jpeg" class="image">
+										<img src="out/pt2-2_mikefft.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Frequency log-plot of image of Mike. </h3>
+									</div>
+								</article>
+
+
+								<article>
+									<a href="out/pt2-2_blurmikefft.jpeg" class="image">
+										<img src="out/pt2-2_blurmikefft.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Frequency of blurred image of Mike. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="lib/finger.jpeg" class="image">
+										<img src="lib/finger.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Original image of a finger. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-2_fingerfft.jpeg" class="image">
+										<img src="out/pt2-2_fingerfft.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Frequency log-plot of image of finger. </h3>
+									</div>
+								</article>
+
+
+								<article>
+									<a href="out/pt2-2_hififingerfft.jpeg" class="image">
+										<img src="out/pt2-2_hififingerfft.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Frequency of hifi image of finger. </h3>
+									</div>
+								</article>
+
+
+								<article>
+									<a href="out/pt2-2_kidnamedfingerfft.jpeg" class="image">
+										<img src="out/pt2-2_kidnamedfingerfft.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Frequency of hybrid image of Mike and finger (notice the center of this image
+											resembles the Mike FFT and the borders resemble the finger FFT). </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-2_.jpeg" class="image">
+										<img src="out/pt2-2_kidnamedfinger.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>KID NAMED FINGER </h3>
+									</div>
+								</article>
+
+							</div>
+
+					</section>
+
+				<!-- Part 2.3: Gaussian and Laplacian Stacks -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Part 2.3: Gaussian and Laplacian Stacks</h2>
+							<p>Gaussian stacks iteratively blur an image and laplacian stacks record the deltas. We used
+								this process on three images: an apple, an orange, and a vertical mask. The following
+								is the result of the apple/mask images, the orange/mask images, and the combined
+								apple/mask + orange/mask = oraple images. </p>
+						</div>
+
+						<br> Apple
+						<!-- Apple -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt2-3_apple0.jpeg" class="image">
+										<img src="out/pt2-3_apple0.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_apple1.jpeg" class="image">
+										<img src="out/pt2-3_apple1.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_apple2.jpeg" class="image">
+										<img src="out/pt2-3_apple2.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_apple3.jpeg" class="image">
+										<img src="out/pt2-3_apple3.jpeg" alt="" />
+									</a>
+								</article>
+							</div>
+
+						<br> Orange
+						<!-- Orange -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt2-3_orange0.jpeg" class="image">
+										<img src="out/pt2-3_orange0.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_orange1.jpeg" class="image">
+										<img src="out/pt2-3_orange1.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_orange2.jpeg" class="image">
+										<img src="out/pt2-3_orange2.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_orange3.jpeg" class="image">
+										<img src="out/pt2-3_orange3.jpeg" alt="" />
+									</a>
+								</article>
+							</div>
+
+						<br> Blended image
+						<!-- Oraple -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt2-3_oraple0.jpeg" class="image">
+										<img src="out/pt2-3_oraple0.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_oraple1.jpeg" class="image">
+										<img src="out/pt2-3_oraple1.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_oraple2.jpeg" class="image">
+										<img src="out/pt2-3_oraple2.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_oraple3.jpeg" class="image">
+										<img src="out/pt2-3_oraple3.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-3_collapsed.jpeg" class="image">
+										<img src="out/pt2-3_collapsed.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>The final oraple (sum of the previous images). </h3>
+									</div>
+								</article>
+							</div>
+
+					</section>
+
+				<!-- Part 2.4: Multiresolution Blending -->
+					<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Part 2.4: Multiresolution Blending</h2>
+							<p>Using the same methods as Part 2.3, we compute several additional blended images. Below
+								is the full process for an image of Marc Andreessen and an Egg. We follow this with a
+								blended image created using an irregular mask, and finally, a full gallery of
+								blended images.</p>
+						</div>
+
+						<br> An Egg's Journey
+						<!-- Egg -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt2-4_egg0.jpeg" class="image">
+										<img src="out/pt2-4_egg0.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_egg1.jpeg" class="image">
+										<img src="out/pt2-4_egg1.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_egg2.jpeg" class="image">
+										<img src="out/pt2-4_egg2.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_egg3.jpeg" class="image">
+										<img src="out/pt2-4_egg3.jpeg" alt="" />
+									</a>
+								</article>
+							</div>
+
+						<br> Marc Andreessen
+						<!-- Pmarca -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt2-4_pmarca0.jpeg" class="image">
+										<img src="out/pt2-4_pmarca0.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarca1.jpeg" class="image">
+										<img src="out/pt2-4_pmarca1.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarca2.jpeg" class="image">
+										<img src="out/pt2-4_pmarca2.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarca3.jpeg" class="image">
+										<img src="out/pt2-4_pmarca3.jpeg" alt="" />
+									</a>
+								</article>
+							</div>
+
+						<br> Blended image
+						<!-- Pmarcegg -->
+							<div class="gallery style2 small">
+								<article>
+									<a href="out/pt2-4_pmarcegg0.jpeg" class="image">
+										<img src="out/pt2-4_pmarcegg0.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarcegg1.jpeg" class="image">
+										<img src="out/pt2-4_pmarcegg1.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarcegg2.jpeg" class="image">
+										<img src="out/pt2-4_pmarcegg2.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarcegg3.jpeg" class="image">
+										<img src="out/pt2-4_pmarcegg3.jpeg" alt="" />
+									</a>
+								</article>
+								<article>
+									<a href="out/pt2-4_pmarcegg.jpeg" class="image">
+										<img src="out/pt2-4_pmarcegg.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Pmarcegg </h3>
+									</div>
+								</article>
+							</div>
+
+						<br> Irregular Mask: The Burning Titanic
+						<!-- Burning Titanic -->
+							<div class="gallery style2 medium">
+
+								<article>
+									<a href="lib/burning_ship.jpeg" class="image">
+										<img src="lib/burning_ship.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>The Burning Ship fractal. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="lib/titanic.jpeg" class="image">
+										<img src="lib/titanic.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>A cropped image of the Titanic sinking. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="lib/titanic_mask.jpeg" class="image">
+										<img src="lib/titanic_mask.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>An irregular mask in the shape of the Titanic. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-4_burning_titanic.jpeg" class="image">
+										<img src="out/pt2-4_burning_titanic.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>The Burning Titanic. </h3>
+									</div>
+								</article>
+
+							</div>
+
+						<br> Full Blended Image Gallery
+						<!-- Full Gallery-->
+							<div class="gallery style2 large lightbox onscroll-fade-in">
+								<article>
+									<a href="out/pt2-3_collapsed.jpeg" class="image">
+										<img src="out/pt2-3_collapsed.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Oraple. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-4_pmarcegg.jpeg" class="image">
+										<img src="out/pt2-4_pmarcegg.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Pmarcegg. </h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt2-4_jokeman.jpeg" class="image">
+										<img src="out/pt2-4_jokeman.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Patrick Jokerman. </h3>
+									</div>
+								</article>
+
+
+								<article>
+									<a href="out/pt2-4_burning_titanic.jpeg" class="image">
+										<img src="out/pt2-4_burning_titanic.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>The Burning Titanic. </h3>
+									</div>
+								</article>
+
+							</div>
+
+					</section>
+
+				<!-- Conclusion -->
+					<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="first">
+						<div class="content">
+							<h2>Conclusion</h2>
+							<p> One of the most important things I learned while working on this project is that it's good
+								to make things easier for yourself. While coding, this means writing re-usable code as
+								much as possible. However, it proved relevant several other times. For example, it was way
+								easier to align images in photoshop than to use align_image_code. I also used photoshop
+								to create the irregular mask. While it isn't in the spec of the project, it makes it
+								significantly easier to create the results I want to see.
+
+								<br><br> Additionally, I used <a href="https://html5up.net/">HTML5 UP</a> to generate this website, which made it a lot
+								easier to format my HTML!</p>
+
+						</div>
+						<div class="image">
+							<img src="lib/little_mask.jpeg" alt="" />
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
